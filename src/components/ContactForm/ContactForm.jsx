@@ -1,12 +1,13 @@
-import { nanoid } from "nanoid";
+// import { nanoid } from "nanoid";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addContact } from "../../redux/contactsSlice";
+import { addContact } from "../../redux/operations";
 import css from "./ContactForm.module.css";
+import { selectContacts } from "redux/selectors";
 
 export default function ContactForm() {
     const dispatch = useDispatch();
-    const contacts = useSelector(state => state.contacts.items);
+    const contacts = useSelector(selectContacts);
     // в даній функції знаки питання після значень перевіряють чи існує таке значення перед викликом toLowerCase()
     const newContactAudit = newContact => {
         return contacts.filter(
@@ -27,10 +28,9 @@ export default function ContactForm() {
     const handleSubmit = event => {
         event.preventDefault();
         const form = event.currentTarget;
-        const id = nanoid();
         const name = form.elements.name.value;
         const number = form.elements.number.value;
-        if (contactFormSubmitHandler({ id, name, number })) {
+        if (contactFormSubmitHandler({ name, number })) {
             form.reset();
         }
     };
